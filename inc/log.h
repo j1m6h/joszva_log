@@ -17,21 +17,19 @@ namespace joszva
     class log
     {
     public:
-        log();
+        log(const std::string& log_file_path = "");
         ~log();
 
         void write_log(log_level lvl, const std::string& str);
-        void set_log_path(const std::string& path);
         void set_console_output(bool enabled);
-        /* will set the default output path for all instances of log */
-        static void set_default_output_path(const std::string& path);
+        static void set_default_log_file_for_all_instances(const std::string& file_path);
 
     private:
         void write_to_console(const std::string& level_txt, const std::string& str);
 
-        std::ifstream input_file;
         std::ofstream output_file;
         bool console_output_enabled;
+        std::string log_file_path;
     };
 }
 #endif

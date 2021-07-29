@@ -1,6 +1,5 @@
 #include <chrono>
 #include <iostream>
-#include <map>
 
 #include "../inc/log.h"
 
@@ -8,13 +7,13 @@ using joszva::log;
 
 namespace 
 {
-    std::string default_path("joszva_log.txt");
+    std::string default_file_path("");
 }
 
-log::log()
-    : input_file(""),
-    output_file(""),
-    console_output_enabled(true)
+log::log(const std::string& log_file_path)
+    : output_file(""),
+    console_output_enabled(true),
+    log_file_path(log_file_path)
 {
 }
 
@@ -50,6 +49,14 @@ static std::string stamp_to_time(long long timestamp)
 
 void log::write_log(log_level lvl, const std::string& str)
 {
+    /* simple check to determine whether or not logging has just started */
+    static unsigned int i = 0;
+    if (i == 0)
+    {
+        default_file_path += "-" + stamp_to_time(get_timestamp());
+        ++i;
+    }
+
     std::string level_txt;
     switch (lvl)
     {
@@ -64,7 +71,21 @@ void log::write_log(log_level lvl, const std::string& str)
         write_to_console(level_txt, str);
     }
 
-    output_file.open(default_path);
+    if (log_file_path != default_file_path && !log_file_path.empty())
+    {
+        log_file_path += "-" + stamp_to_time(get_timestamp());
+        output_file.open(log_file_path, std::ios::app);
+    }
+    else 
+    {
+        output_file.open(default_file_path, std::ios::app);
+    }
+
+    if (output_file.is_open())
+    {
+        output_file << stamp_to_time(get_timestamp()) << " " << level_txt << " " << str << std::endl;
+        output_file.close();
+    }
 }
 
 void log::set_console_output(bool enabled)
@@ -78,22 +99,12 @@ void log::set_console_output(bool enabled)
     console_output_enabled = false;
 }
 
-void log::set_default_output_path(const std::string& path)
-{
-    default_path = path;
-}
-
 void log::write_to_console(const std::string& level_txt, const std::string& str)
 {
     std::cout << stamp_to_time(get_timestamp()) << " " << level_txt << " " << str << std::endl;
 }
 
-int main()
+void log::set_default_log_file_for_all_instances(const std::string& file_path)
 {
-    log::set_default_output_path("/home/joshua/Desktop/example_log1.txt");
-    log _log;
-    _log.write_log(joszva::log_level::ERROR, "This is a test error message");
-    _log.write_log(joszva::log_level::TRACE, "Tracing now");
-
-    return 0;
+    default_file_path = file_path;
 }
