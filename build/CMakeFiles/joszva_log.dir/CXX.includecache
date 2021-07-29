@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/joshua/Desktop/joszva_log/inc/log.h
+fstream
+-
+string
+-
+
+/home/joshua/Desktop/joszva_log/src/log.cpp
+chrono
+-
+iostream
+-
+map
+-
+../inc/log.h
+/home/joshua/Desktop/joszva_log/inc/log.h
+

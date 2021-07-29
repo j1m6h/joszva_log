@@ -1,0 +1,14 @@
+[ERROR] This is a test error message
+[ERROR] This is a test error message
+[ERROR] This is a test error message
+[TRACE] Tracing now
+[ERROR] This is a test error message
+[TRACE] Tracing now
+[ERROR] This is a test error message
+[TRACE] Tracing now
+[ERROR] This is a test error message
+[TRACE] Tracing now
+[ERROR] This is a test error message
+[TRACE] Tracing now
+[ERROR] This is a test error message
+[TRACE] Tracing now
