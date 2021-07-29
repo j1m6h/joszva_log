@@ -94,7 +94,6 @@ int main()
     log _log;
     _log.write_log(joszva::log_level::ERROR, "This is a test error message");
     _log.write_log(joszva::log_level::TRACE, "Tracing now");
-    _log.write_log(joszva::log_level::WARNING, "Claudia is gay");
 
     return 0;
 }
