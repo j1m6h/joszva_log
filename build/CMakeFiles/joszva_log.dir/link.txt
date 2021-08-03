@@ -1,1 +1,0 @@
-/bin/x86_64-linux-gnu-g++-10 -fPIC -g -shared -Wl,-soname,libjoszva_log.so -o libjoszva_log.so CMakeFiles/joszva_log.dir/src/log.cpp.o 
