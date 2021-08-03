@@ -20,7 +20,7 @@ namespace joszva
         log(const std::string& log_file_path = "");
         ~log();
 
-        void write_log(log_level lvl, const std::string& str);
+        void write_log(log_level lvl, std::string&& str);
         void set_console_output(bool enabled);
         static void set_default_log_file_for_all_instances(const std::string& file_path);
 

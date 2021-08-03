@@ -1,0 +1,4 @@
+2021-08-03 14:02:11 412 [ERROR] This is a test error
+2021-08-03 14:02:11 412 [WARNING] Warning test
+2021-08-03 14:02:11 412 [TRACE] trace test
+2021-08-03 14:02:11 412 [FATAL] fatal test

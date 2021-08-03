@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/joshua/Desktop/joszva_log/build",
+  "command": "/bin/x86_64-linux-gnu-g++-10 -Djoszva_log_EXPORTS  -g -fPIC -o CMakeFiles/joszva_log.dir/src/log.cpp.o -c /home/joshua/Desktop/joszva_log/src/log.cpp",
+  "file": "/home/joshua/Desktop/joszva_log/src/log.cpp"
+}
+]

@@ -1,0 +1,7 @@
+2021-08-03 14:05:37 377 [ERROR] This is a test error
+2021-08-03 14:05:37 377 [WARNING] Warning test
+2021-08-03 14:05:37 377 [TRACE] trace test
+2021-08-03 14:05:37 377 [FATAL] fatal test
+2021-08-03 14:05:37 377 [TRACE] Trace test log 2
+2021-08-03 14:05:37 377 [ERROR] error test log 2
+2021-08-03 14:05:37 378 [TRACE] hll
