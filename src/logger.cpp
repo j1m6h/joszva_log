@@ -1,32 +1,61 @@
 #include <chrono>
 #include <iostream>
 
-#include "../inc/log.h"
+#include "../inc/logger.h"
 
-using joszva::log;
+using joszva::logger;
 
-namespace 
-{
-    std::string default_file_path("");
-}
+std::string logger::default_log_path = "";
 
-enum color
-{
-    RED,
-    GREEN,
-    YELLOW,
-    DEFAULT
-};
-
-log::log(const std::string& log_file_path)
+logger::logger(const std::string& log_file_path)
     : output_file(""),
     console_output_enabled(true),
-    log_file_path(log_file_path)
+    log_path(log_file_path)
 {
 }
 
-log::~log()
+logger::~logger()
 {
+}
+
+void logger::info(const std::string& str)
+{
+    write_log(log_level::INFO, const_cast<std::string&>(str));
+}
+
+void logger::warning(const std::string& str)
+{
+    write_log(log_level::WARNING, const_cast<std::string&>(str));
+}
+
+void logger::error(const std::string& str)
+{
+    write_log(log_level::ERROR, const_cast<std::string&>(str));
+}
+
+void logger::fatal(const std::string& str)
+{
+    write_log(log_level::FATAL, const_cast<std::string&>(str));
+}
+
+void logger::set_default_log_path(const std::string& file_path)
+{
+    default_log_path = file_path;
+}
+
+const std::string& logger::get_log_path() const 
+{
+    if (log_path.empty())
+    {
+        /* no custom logger path */
+    }
+
+    return log_path;
+}
+
+const std::string& logger::get_default_log_path()
+{
+    return default_log_path;
 }
 
 static bool is_file_empty(std::istream& file)
@@ -55,9 +84,9 @@ static std::string stamp_to_time(long long timestamp)
     return str;
 }
 
-static void write_console(const std::string& txt, int col = DEFAULT)
+void logger::write_to_console(const std::string& txt, int col)
 {
-    std::cout << "\033[32m" << stamp_to_time(get_timestamp()) << " ";
+    std::cout << "\033[39m" << stamp_to_time(get_timestamp()) << " ";
     switch (col)
     {
         case RED:
@@ -78,44 +107,44 @@ static void write_console(const std::string& txt, int col = DEFAULT)
     std::cout << "\033[39m";
 }
 
-void log::write_log(log_level lvl, std::string&& str)
+void logger::write_log(log_level lvl, std::string& str)
 {
     /* simple check to determine whether or not logging has just started */
     static unsigned int i = 0;
     if (i == 0)
     {
-        default_file_path += "-" + stamp_to_time(get_timestamp());
+        default_log_path += "-" + stamp_to_time(get_timestamp());
         ++i;
     }
 
     switch (lvl)
     {
-        case log_level::TRACE: 
-            str.insert(0, "[TRACE] ");
-            write_console(str, GREEN);
+        case log_level::INFO: 
+            str.insert(0, "[INFO] ");
+            write_to_console(str, GREEN);
             break;
         case log_level::WARNING:  
             str.insert(0, "[WARNING] ");
-            write_console(str, YELLOW);
+            write_to_console(str, YELLOW);
             break;
         case log_level::ERROR:
             str.insert(0, "[ERROR] ");
-            write_console(str, RED);
+            write_to_console(str, RED);
             break;
         case log_level::FATAL:  
             str.insert(0, "[FATAL] ");
-            write_console(str, RED);
+            write_to_console(str, RED);
             break;
     }
 
-    if (log_file_path != default_file_path && !log_file_path.empty())
+    if (log_path != default_log_path && !log_path.empty())
     {
-        log_file_path += "-" + stamp_to_time(get_timestamp());
-        output_file.open(log_file_path, std::ios::app);
+        log_path += "-" + stamp_to_time(get_timestamp());
+        output_file.open(log_path, std::ios::app);
     }
     else 
     {
-        output_file.open(default_file_path, std::ios::app);
+        output_file.open(default_log_path, std::ios::app);
     }
 
     if (output_file.is_open())
@@ -123,9 +152,4 @@ void log::write_log(log_level lvl, std::string&& str)
         output_file << stamp_to_time(get_timestamp()) << " " << str << std::endl;
         output_file.close();
     }
-}
-
-void log::set_default_log_file_for_all_instances(const std::string& file_path)
-{
-    default_file_path = file_path;
 }
